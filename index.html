@@ -1,1 +1,29 @@
-task3
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Todoリスト</title>
+  </head>
+  <body>
+    <h1>Todoリスト</h1>
+    <input type="radio" name="all" value="all" />すべて
+    <input type="radio" name="Working" value="Working" />作業中
+    <input type="radio" name="complete" value="complete" />完了
+    <br />
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>コメント</th>
+          <th>状態</th>
+        </tr>
+      </thead>
+      <tbody id="t-body"></tbody>
+    </table>
+    <h1>新規タスクの追加</h1>
+    <input type="text" id="newTask" />
+    <button id="addTask">追加</button>
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>
