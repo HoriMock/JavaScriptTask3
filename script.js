@@ -25,11 +25,12 @@ addTask.addEventListener("click", () => {
   deleteButton.textContent = "削除";
 
   // todoリストのオブジェクトを生成
-  const todo = {};
-  todo.id = id;
-  todo.comment = comment;
-  todo.workStatus = workStatus;
-  todo.deleteButton = deleteButton;
+  const todo = {
+    id: id,
+    comment: comment,
+    workStatus: workStatus,
+    deleteButton: deleteButton,
+  };
 
   // オブジェクトを配列に格納
   tasks.push(todo);
