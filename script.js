@@ -43,17 +43,16 @@ const showTodo = () => {
     tBody.textContent = "";
   }
   // 配列を処理
-  tasks.forEach((task) => {
+  tasks.forEach((task, id) => {
     const tr = document.createElement("tr");
     const tdId = document.createElement("td");
     const tdComment = document.createElement("td");
     const tdWorkStatus = document.createElement("td");
     const tdDeleteButton = document.createElement("td");
 
-    tdId.textContent = task.id;
+    tdId.textContent = id;
     tdComment.textContent = task.comment;
     const statusButton = task.workStatus;
-    const deleteBtn = task.deleteButton;
 
     tBody.appendChild(tr);
     tr.appendChild(tdId);
@@ -61,6 +60,18 @@ const showTodo = () => {
     tr.appendChild(tdWorkStatus);
     tdWorkStatus.appendChild(statusButton);
     tr.appendChild(tdDeleteButton);
-    tdDeleteButton.appendChild(deleteBtn);
+    tdDeleteButton.appendChild(createDeleteButton(tr));
   });
+};
+
+// 削除機能を管理する関数
+const createDeleteButton = (tr) => {
+  let index = tr.rowIndex - 1;
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "削除";
+  deleteButton.addEventListener("click", () => {
+    tasks.splice(index, 1);
+    showTodo();
+  });
+  return deleteButton;
 };
