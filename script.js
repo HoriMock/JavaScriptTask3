@@ -38,6 +38,7 @@ addTask.addEventListener("click", () => {
   newTask.value = "";
 });
 
+// 追加したtodoリストを表示する関数
 const showTodo = () => {
   while (tBody.firstChild) {
     tBody.textContent = "";
@@ -52,13 +53,12 @@ const showTodo = () => {
 
     tdId.textContent = id;
     tdComment.textContent = task.comment;
-    const statusButton = task.workStatus;
 
     tBody.appendChild(tr);
     tr.appendChild(tdId);
     tr.appendChild(tdComment);
     tr.appendChild(tdWorkStatus);
-    tdWorkStatus.appendChild(statusButton);
+    tdWorkStatus.appendChild(createStatusButton());
     tr.appendChild(tdDeleteButton);
     tdDeleteButton.appendChild(createDeleteButton(tr));
   });
@@ -74,4 +74,18 @@ const createDeleteButton = (tr) => {
     showTodo();
   });
   return deleteButton;
+};
+
+// 作業ステータスを管理する関数
+const createStatusButton = () => {
+  const statusButton = document.createElement("button");
+  statusButton.textContent = "作業中";
+  statusButton.addEventListener("click", () => {
+    if (statusButton.textContent === "作業中") {
+      statusButton.textContent = "完了";
+    } else {
+      statusButton.textContent = "作業中";
+    }
+  });
+  return statusButton;
 };
