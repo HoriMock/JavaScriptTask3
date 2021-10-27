@@ -7,9 +7,30 @@
   </head>
   <body>
     <h1>Todoリスト</h1>
-    <input type="radio" name="all" value="all" />すべて
-    <input type="radio" name="Working" value="Working" />作業中
-    <input type="radio" name="complete" value="complete" />完了
+    <form class="radio_button">
+      <input
+        id="all-select"
+        type="radio"
+        name="radio1"
+        value="all"
+        onchange="radioSelect()"
+        checked
+      />すべて
+      <input
+        id="working-select"
+        type="radio"
+        name="radio1"
+        value="Working"
+        onchange="radioSelect()"
+      />作業中
+      <input
+        id="complete-select"
+        type="radio"
+        name="radio1"
+        value="complete"
+        onchange="radioSelect()"
+      />完了
+    </form>
     <br />
     <table>
       <thead>
