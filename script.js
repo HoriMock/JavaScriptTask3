@@ -16,49 +16,40 @@ addTask.addEventListener("click", () => {
   // コメントの値を取得する
   const comment = newTask.value;
 
-  // 作業中ボタンを表示する
-  const workStatus = document.createElement("button");
-  workStatus.textContent = "作業中";
-
-  // 削除ボタンを表示する
-  const deleteButton = document.createElement("button");
-  deleteButton.textContent = "削除";
-
   // todoリストのオブジェクトを生成
   const todo = {
     id: id,
     comment: comment,
-    workStatus: workStatus,
-    deleteButton: deleteButton,
+    workStatus: "作業中",
   };
 
   // オブジェクトを配列に格納
   tasks.push(todo);
-  showTodo();
+  radioSelect();
   newTask.value = "";
 });
 
 // 追加したtodoリストを表示する関数
-const showTodo = () => {
+const showTodo = (selectTasks) => {
   while (tBody.firstChild) {
     tBody.textContent = "";
   }
   // 配列を処理
-  tasks.forEach((task, id) => {
+  selectTasks.forEach((selectTask) => {
     const tr = document.createElement("tr");
     const tdId = document.createElement("td");
     const tdComment = document.createElement("td");
     const tdWorkStatus = document.createElement("td");
     const tdDeleteButton = document.createElement("td");
 
-    tdId.textContent = id;
-    tdComment.textContent = task.comment;
+    tdId.textContent = selectTask.id;
+    tdComment.textContent = selectTask.comment;
 
     tBody.appendChild(tr);
     tr.appendChild(tdId);
     tr.appendChild(tdComment);
     tr.appendChild(tdWorkStatus);
-    tdWorkStatus.appendChild(createStatusButton());
+    tdWorkStatus.appendChild(createStatusButton(selectTask));
     tr.appendChild(tdDeleteButton);
     tdDeleteButton.appendChild(createDeleteButton(tr));
   });
@@ -71,21 +62,44 @@ const createDeleteButton = (tr) => {
   deleteButton.textContent = "削除";
   deleteButton.addEventListener("click", () => {
     tasks.splice(index, 1);
-    showTodo();
+    tasks.reduce((id, task) => (task.id = id + 1), -1);
+    showTodo(tasks);
   });
   return deleteButton;
 };
 
 // 作業ステータスを管理する関数
-const createStatusButton = () => {
+const createStatusButton = (task) => {
   const statusButton = document.createElement("button");
-  statusButton.textContent = "作業中";
+  statusButton.textContent = task.workStatus;
   statusButton.addEventListener("click", () => {
-    if (statusButton.textContent === "作業中") {
-      statusButton.textContent = "完了";
+    if (task.workStatus === "作業中") {
+      task.workStatus = "完了";
     } else {
-      statusButton.textContent = "作業中";
+      task.workStatus = "作業中";
     }
+    showTodo(tasks);
   });
   return statusButton;
+};
+
+// ラジオボタンにチェックされている作業ステータスでフィルタリングする機能を管理する関数
+const radioSelect = () => {
+  const radioButtonAll = document.getElementById("all-select");
+  const radioButtonWorking = document.getElementById("working-select");
+  const radioButtonComplete = document.getElementById("complete-select");
+
+  if (radioButtonAll.checked) {
+    return showTodo(tasks);
+  } else if (radioButtonWorking.checked) {
+    const filterWorking = tasks.filter((todo) => {
+      return todo.workStatus === "作業中";
+    });
+    return showTodo(filterWorking);
+  } else if (radioButtonComplete.checked) {
+    const filterComplete = tasks.filter((todo) => {
+      return todo.workStatus === "完了";
+    });
+    return showTodo(filterComplete);
+  }
 };
